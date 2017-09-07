@@ -1,13 +1,13 @@
-var listStudents = $(".student-list").children();
-var numStudents = listStudents.length;;
+var $listStudents = $(".student-list > *");
+var numStudents = $listStudents.length;
 
 
-function showPage(pageNum, listName) {
+function showPage(pageNum, $names) {
     // first hide all students on the page
     $(".student-list li").hide();
     pageNum = parseInt(pageNum);
     // Then loop through all students in our student list argument
-    $.each(listName,function(index){
+    $.each($names,function(index){
     // if student should be on this page number
         if ((index >= ((pageNum*10)-10)) &&  (index <= (pageNum*10))) {
        	// show the student
@@ -38,7 +38,7 @@ function appendPageLinks(numStudents) {
     var active = $('.pagination a').click(function(){
         // Use the showPage function to display the page for the link clicked
         var id = $(this).attr('id');
-        showPage(id,listStudents);
+        showPage(id,$listStudents);
         // mark that link as “active”
         active.removeClass('active');
         $(this).addClass("active");
@@ -63,7 +63,7 @@ function searchList() {
     // remove the previous page link section
     $('.pagination').hide();
     // Loop over the student list, and for each student…
-    $.each(listStudents,(function(){
+    $.each($listStudents,(function(){
         // ...obtain the student’s name…
         var name = $(this).find("h3").text();
         // ...and the student’s email…
@@ -75,7 +75,7 @@ function searchList() {
 //             $(".student-list").hide();
              console.log(email);
              console.log(name);
-             }cd j
+             }
      }));
      // If there’s no “matched” students…
      if (matched.length === 0){
@@ -100,4 +100,4 @@ appendSearchBox();
 //Create pagination dynamically
 appendPageLinks(numStudents);
 //Show first page on load
-showPage(1, listStudents);
+showPage(1, $listStudents);
