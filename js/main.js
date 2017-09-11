@@ -102,6 +102,6 @@ function searchList() {
 //Dynamically add search
 appendSearchBox();
 //Create pagination dynamically
-appendPageLinks(numStudents$, $listStudents);
+appendPageLinks(numStudents, $listStudents);
 //Show first page on load
 showPage(1, $listStudents);
