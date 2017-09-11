@@ -1,7 +1,7 @@
 var $listStudents = $(".student-list > *");
 var numStudents = $listStudents.length;
 
-
+//Shows the first ten students for a particular page
 function showPage(pageNum, $names) {
     // first hide all students on the page
     $(".student-list li").hide();
@@ -17,13 +17,14 @@ function showPage(pageNum, $names) {
 
  }
 
+//Gets the number of pages needed to display per list of students
 function getNumPages(numStudents){
     numPages = Math.ceil(numStudents/10);
     return numPages;
     }
 
-
-function appendPageLinks(numStudents) {
+//Creates the pagination links
+function appendPageLinks(numStudents, searchResults) {
     // determine how many pages for this student list
     pages  = getNumPages(numStudents);
     // create a page link section
@@ -38,13 +39,14 @@ function appendPageLinks(numStudents) {
     var active = $('.pagination a').click(function(){
         // Use the showPage function to display the page for the link clicked
         var id = $(this).attr('id');
-        showPage(id,$listStudents);
+        showPage(id,searchResults);
         // mark that link as “active”
         active.removeClass('active');
         $(this).addClass("active");
         });
 }
 
+//dynamically creates search box
 function appendSearchBox(){
     var search = "<div class='student-search'><input id='search' placeholder='Search for students...'><button>Search</button></div>"
     $(".students").after(search);
@@ -56,6 +58,7 @@ function appendSearchBox(){
 
 }
 
+//conrols the search function
 function searchList() {
     var matched = []
     // Obtain the value of the search input
@@ -81,8 +84,9 @@ function searchList() {
      if (matched.length === 0){
          // ...display a “no student’s found” message
          $(".student-list li").hide();
-         var message = ("Sorry, no student's found!");
-         $("#message").show();
+         $('.sorry').remove(); // Removes previous failed search, if present
+         $('.page').append('<div class="sorry"><p>Sorry, no results found!</p></div>');
+
      } else if (matched.length <= 10) {
         // ...call appendPageLinks with the matched students
 //         $(".student-list li").hide();
@@ -90,14 +94,14 @@ function searchList() {
      } else {
 //        $(".student-list li").hide();
         showPage(1, matched);
-        appendPageLinks(matched.length);
+        appendPageLinks(matched.length, matched);
      }
-    $('#search').value = ''; // Clears search field
+    $('#search').val("");// Clears search field
 }
 
 //Dynamically add search
 appendSearchBox();
 //Create pagination dynamically
-appendPageLinks(numStudents);
+appendPageLinks(numStudents$, $listStudents);
 //Show first page on load
 showPage(1, $listStudents);
